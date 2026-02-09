@@ -1,0 +1,181 @@
+// 全局样式
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", Arial, sans-serif;
+  font-size: 14px;
+  color: #303133;
+  background-color: #f5f7fa;
+}
+
+// 主色调
+$primary-color: #409eff;
+$success-color: #67c23a;
+$warning-color: #e6a23c;
+$danger-color: #f56c6c;
+$info-color: #909399;
+
+// 背景色
+$bg-color: #f5f7fa;
+$card-bg-color: #ffffff;
+
+// 间距
+$spacing-xs: 8px;
+$spacing-sm: 12px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+
+// 圆角
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+
+// 阴影
+$box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+// 卡片样式
+.card {
+  background: $card-bg-color;
+  border-radius: $border-radius-md;
+  box-shadow: $box-shadow;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+}
+
+// 页面标题
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+
+  .page-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #303133;
+    margin: 0;
+  }
+}
+
+// 搜索栏
+.search-bar {
+  display: flex;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: $spacing-md;
+  background: #f8f9fa;
+  border-radius: $border-radius-md;
+}
+
+// 表格操作列
+.table-actions {
+  display: flex;
+  gap: $spacing-xs;
+  flex-wrap: wrap;
+}
+
+// 统计卡片
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+
+  .stat-card {
+    background: $card-bg-color;
+    border-radius: $border-radius-md;
+    box-shadow: $box-shadow;
+    padding: $spacing-lg;
+    text-align: center;
+    border-left: 4px solid $primary-color;
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: $primary-color;
+      margin-bottom: $spacing-xs;
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: $info-color;
+    }
+
+    &.success {
+      border-left-color: $success-color;
+      .stat-value {
+        color: $success-color;
+      }
+    }
+    &.warning {
+      border-left-color: $warning-color;
+      .stat-value {
+        color: $warning-color;
+      }
+    }
+    &.danger {
+      border-left-color: $danger-color;
+      .stat-value {
+        color: $danger-color;
+      }
+    }
+    &.info {
+      border-left-color: $info-color;
+      .stat-value {
+        color: $info-color;
+      }
+    }
+  }
+}
+
+// Element Plus 表格样式优化 - 撑满容器
+.el-table {
+  width: 100% !important;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+
+  th.el-table__cell {
+    background-color: #f5f7fa !important;
+    color: #606266;
+    font-weight: 600;
+  }
+}
+
+// Element Plus 分页样式优化
+.el-pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: $spacing-md 0 0;
+}
+
+// Element Plus 对话框样式优化
+.el-dialog {
+  border-radius: $border-radius-md;
+
+  .el-dialog__header {
+    border-bottom: 1px solid #ebeef5;
+    padding-bottom: $spacing-md;
+  }
+
+  .el-dialog__body {
+    padding-top: $spacing-lg !important;
+  }
+
+  .el-dialog__footer {
+    border-top: 1px solid #ebeef5;
+    padding-top: $spacing-md;
+  }
+}
+
+// Element Plus 下拉选择器样式
+.el-select {
+  min-width: 120px;
+}
