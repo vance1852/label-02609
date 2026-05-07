@@ -25,3 +25,4 @@ class AttendanceStatistics(BaseModel):
     late_days: int = 0
     early_days: int = 0
     absent_days: int = 0
+    leave_days: int = 0

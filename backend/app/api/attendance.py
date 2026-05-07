@@ -168,7 +168,8 @@ async def get_statistics(
             "normal_days": stats.normal_days,
             "late_days": stats.late_days,
             "early_days": stats.early_days,
-            "absent_days": stats.absent_days
+            "absent_days": stats.absent_days,
+            "leave_days": stats.leave_days
         }
     )
 

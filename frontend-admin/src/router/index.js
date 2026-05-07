@@ -43,6 +43,16 @@ const routes = [
         name: "Records",
         component: () => import("@/views/Records.vue"),
       },
+      {
+        path: "my-leave",
+        name: "MyLeave",
+        component: () => import("@/views/MyLeave.vue"),
+      },
+      {
+        path: "leave-approval",
+        name: "LeaveApproval",
+        component: () => import("@/views/LeaveApproval.vue"),
+      },
     ],
   },
 ];

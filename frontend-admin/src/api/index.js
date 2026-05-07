@@ -94,4 +94,12 @@ export default {
     list: (params) => instance.get("/attendance", { params }),
     statistics: (params) => instance.get("/attendance/statistics", { params }),
   },
+  leave: {
+    create: (data) => instance.post("/leave", data),
+    my: (params) => instance.get("/leave/my", { params }),
+    pending: (params) => instance.get("/leave/pending", { params }),
+    all: (params) => instance.get("/leave/all", { params }),
+    approve: (id, data) => instance.put(`/leave/${id}/approve`, data),
+    dates: (params) => instance.get("/leave/dates", { params }),
+  },
 };
