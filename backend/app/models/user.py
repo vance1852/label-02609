@@ -29,3 +29,4 @@ class User(Base):
     department = relationship("Department", back_populates="users")
     face_encodings = relationship("FaceEncoding", back_populates="user", cascade="all, delete-orphan")
     attendances = relationship("Attendance", back_populates="user", cascade="all, delete-orphan")
+    leaves = relationship("Leave", back_populates="user", cascade="all, delete-orphan", foreign_keys="Leave.user_id")

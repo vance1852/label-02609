@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from app.core.database import SessionLocal, engine, Base
-from app.models import User, Department, FaceEncoding, Attendance
+from app.models import User, Department, FaceEncoding, Attendance, Leave
 from app.core.security import get_password_hash
 import logging
 
