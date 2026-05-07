@@ -12,7 +12,7 @@ from app.core.exceptions import (
     validation_exception_handler,
     global_exception_handler
 )
-from app.api import auth, users, departments, attendance
+from app.api import auth, users, departments, attendance, leave
 
 # 配置日志
 logging.basicConfig(
@@ -47,6 +47,7 @@ app.include_router(auth.router, prefix="/api")
 app.include_router(users.router, prefix="/api")
 app.include_router(departments.router, prefix="/api")
 app.include_router(attendance.router, prefix="/api")
+app.include_router(leave.router, prefix="/api")
 
 # 静态文件服务
 if not os.path.exists(settings.UPLOAD_DIR):

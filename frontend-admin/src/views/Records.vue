@@ -80,7 +80,7 @@ const selectedUser = ref(null)
 const pagination = reactive({ page: 1, pageSize: 10, total: 0 })
 
 const getStatusType = (status) => {
-  const map = { normal: 'success', late: 'warning', early: 'danger' }
+  const map = { normal: 'success', late: 'warning', early: 'danger', leave: 'primary' }
   return map[status] || 'info'
 }
 

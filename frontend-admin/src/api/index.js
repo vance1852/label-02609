@@ -94,4 +94,12 @@ export default {
     list: (params) => instance.get("/attendance", { params }),
     statistics: (params) => instance.get("/attendance/statistics", { params }),
   },
+  leave: {
+    apply: (data) => instance.post("/leave/apply", data),
+    getMyLeaves: (params) => instance.get("/leave/my", { params }),
+    getAllLeaves: (params) => instance.get("/leave", { params }),
+    getDetail: (id) => instance.get(`/leave/${id}`),
+    approve: (id, data) => instance.post(`/leave/${id}/approve`, data),
+    reject: (id, data) => instance.post(`/leave/${id}/reject`, data),
+  },
 };

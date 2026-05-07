@@ -5,6 +5,7 @@ from typing import Optional
 from app.core.database import get_db
 from app.schemas.common import ResponseModel
 from app.services.attendance_service import AttendanceService
+from app.services.leave_service import LeaveService
 from app.api.deps import get_current_user, get_admin_user
 from app.models.user import User
 import logging
@@ -129,6 +130,13 @@ async def get_attendances(
     for record in records:
         user = record.user
         dept_name = user.department.name if user.department else None
+        is_on_leave = AttendanceService.has_approved_leave(db, record.user_id, record.attendance_date)
+        if is_on_leave:
+            status = "leave"
+            status_text = "请假"
+        else:
+            status = record.status
+            status_text = {"normal": "正常", "late": "迟到", "early": "早退"}.get(record.status, "未知")
         record_list.append({
             "id": record.id,
             "user_id": record.user_id,
@@ -140,8 +148,8 @@ async def get_attendances(
             "record_type_text": "签到" if record.record_type == "check_in" else "签退",
             "record_time": record.record_time.strftime("%H:%M:%S") if record.record_time else None,
             "record_image": record.record_image,
-            "status": record.status,
-            "status_text": {"normal": "正常", "late": "迟到", "early": "早退"}.get(record.status, "未知")
+            "status": status,
+            "status_text": status_text
         })
     
     return ResponseModel(
@@ -194,14 +202,21 @@ async def get_my_attendances(
     
     record_list = []
     for record in records:
+        is_on_leave = AttendanceService.has_approved_leave(db, record.user_id, record.attendance_date)
+        if is_on_leave:
+            status = "leave"
+            status_text = "请假"
+        else:
+            status = record.status
+            status_text = {"normal": "正常", "late": "迟到", "early": "早退"}.get(record.status, "未知")
         record_list.append({
             "id": record.id,
             "attendance_date": record.attendance_date.isoformat(),
             "record_type": record.record_type,
             "record_type_text": "签到" if record.record_type == "check_in" else "签退",
             "record_time": record.record_time.strftime("%H:%M:%S") if record.record_time else None,
-            "status": record.status,
-            "status_text": {"normal": "正常", "late": "迟到", "early": "早退"}.get(record.status, "未知")
+            "status": status,
+            "status_text": status_text
         })
     
     return ResponseModel(

@@ -43,6 +43,17 @@ const routes = [
         name: "Records",
         component: () => import("@/views/Records.vue"),
       },
+      {
+        path: "my-leaves",
+        name: "MyLeaves",
+        component: () => import("@/views/MyLeaves.vue"),
+      },
+      {
+        path: "leave-approval",
+        name: "LeaveApproval",
+        component: () => import("@/views/LeaveApproval.vue"),
+        meta: { requiresAdmin: true },
+      },
     ],
   },
 ];
@@ -52,14 +63,25 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
 
   if (to.meta.requiresAuth !== false && !userStore.token) {
     next("/login");
-  } else {
-    next();
+    return;
   }
+
+  if (to.meta.requiresAdmin) {
+    if (!userStore.userInfo) {
+      await userStore.fetchUserInfo();
+    }
+    if (!userStore.isAdmin) {
+      next("/dashboard");
+      return;
+    }
+  }
+
+  next();
 });
 
 export default router;

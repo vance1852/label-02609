@@ -28,6 +28,14 @@
           <el-icon><Calendar /></el-icon>
           <span>考勤记录</span>
         </el-menu-item>
+        <el-menu-item index="/my-leaves">
+          <el-icon><Document /></el-icon>
+          <span>我的请假</span>
+        </el-menu-item>
+        <el-menu-item v-if="userStore.isAdmin" index="/leave-approval">
+          <el-icon><Edit /></el-icon>
+          <span>请假审批</span>
+        </el-menu-item>
         <el-menu-item index="/attendance">
           <el-icon><Camera /></el-icon>
           <span>人脸打卡</span>
@@ -78,7 +86,9 @@ const titleMap = {
   '/dashboard': '数据概览',
   '/users': '员工管理',
   '/departments': '部门管理',
-  '/records': '考勤记录'
+  '/records': '考勤记录',
+  '/my-leaves': '我的请假',
+  '/leave-approval': '请假审批'
 }
 
 const currentTitle = computed(() => titleMap[route.path] || '')

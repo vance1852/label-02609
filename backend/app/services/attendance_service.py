@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, func
 from typing import List, Optional, Tuple
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 from app.models.attendance import Attendance
 from app.models.user import User
+from app.models.leave import Leave, LeaveStatus
 from app.services.face_service import FaceService
 from app.schemas.attendance import AttendanceStatistics
 import logging
@@ -17,6 +18,16 @@ WORK_END_TIME = time(18, 0, 0)   # 下班时间 18:00
 
 class AttendanceService:
     """考勤服务 - 每次打卡都创建新记录"""
+    
+    @staticmethod
+    def has_approved_leave(db: Session, user_id: int, check_date: date) -> Optional[Leave]:
+        """检查用户在指定日期是否有已通过的请假"""
+        return db.query(Leave).filter(
+            Leave.user_id == user_id,
+            Leave.status == LeaveStatus.APPROVED.value,
+            Leave.start_date <= check_date,
+            Leave.end_date >= check_date
+        ).first()
     
     @staticmethod
     def check_in(db: Session, image_data: bytes) -> Tuple[bool, str, Optional[dict]]:
