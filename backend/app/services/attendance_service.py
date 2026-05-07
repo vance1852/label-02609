@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, func
 from typing import List, Optional, Tuple
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 from app.models.attendance import Attendance
 from app.models.user import User
+from app.models.leave import Leave
 from app.services.face_service import FaceService
 from app.schemas.attendance import AttendanceStatistics
 import logging
@@ -227,24 +228,43 @@ class AttendanceService:
         start_date: Optional[date] = None,
         end_date: Optional[date] = None
     ) -> AttendanceStatistics:
-        """获取考勤统计"""
         query = db.query(Attendance)
-        
+
         if user_id:
             query = query.filter(Attendance.user_id == user_id)
         if start_date:
             query = query.filter(Attendance.attendance_date >= start_date)
         if end_date:
             query = query.filter(Attendance.attendance_date <= end_date)
-        
+
         records = query.all()
-        
+
+        leave_days = 0
+        if start_date and end_date:
+            uid = user_id
+            if uid:
+                leave_query = db.query(Leave).filter(
+                    Leave.user_id == uid,
+                    Leave.status == "approved",
+                    Leave.start_date <= end_date,
+                    Leave.end_date >= start_date,
+                ).all()
+                leave_dates = set()
+                for lv in leave_query:
+                    current = max(lv.start_date, start_date)
+                    bound = min(lv.end_date, end_date)
+                    while current <= bound:
+                        leave_dates.add(current)
+                        current = current + timedelta(days=1)
+                leave_days = len(leave_dates)
+
         stats = AttendanceStatistics(
             total_days=len(records),
             normal_days=sum(1 for r in records if r.status == "normal"),
             late_days=sum(1 for r in records if r.status == "late"),
             early_days=sum(1 for r in records if r.status == "early"),
-            absent_days=0
+            absent_days=0,
+            leave_days=leave_days
         )
-        
+
         return stats
